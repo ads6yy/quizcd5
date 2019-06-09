@@ -8,7 +8,7 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <a class="navbar-brand" href="#">Quiz CD5</a>
+            <a class="navbar-brand" href="/">Quiz CD5</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -23,9 +23,18 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
+                    {%  if app.user %}
+                        <li class="nav-item">
+                            <a href="{{ path('app_logout') }}" class="btn btn-secondary" style="margin-right: 10px">Déconnexion</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a href="{{ path('app_login') }}" class="btn btn-secondary" style="margin-right: 10px">Connexion</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-right">
                         <img src="https://pbs.twimg.com/profile_images/1027609854733631488/5V8n97zD_400x400.jpg"
-                             class="img-responsive rounded-circle" style="height: 45px">
+                             class="img-responsive rounded-circle" style="height: 40px">
                     </li>
                 </ul>
             </div>

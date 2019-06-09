@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -19,45 +18,24 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $username;
-
-    /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="json")
      */
-    private $password;
+    private $roles = [];
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Result", mappedBy="user")
+     * @var string The hashed password
+     * @ORM\Column(type="string")
      */
-    private $results;
-
-    public function __construct()
-    {
-        $this->results = new ArrayCollection();
-    }
+    private $password;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
     }
 
     public function getEmail(): ?string
@@ -72,9 +50,41 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
     {
-        return $this->password;
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): self
@@ -85,30 +95,19 @@ class User
     }
 
     /**
-     * @return Collection|Result[]
+     * @see UserInterface
      */
-    public function getResults(): Collection
+    public function getSalt()
     {
-        return $this->results;
+        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
-    public function addResult(Result $result): self
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
     {
-        if (!$this->results->contains($result)) {
-            $this->results[] = $result;
-            $result->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeResult(Result $result): self
-    {
-        if ($this->results->contains($result)) {
-            $this->results->removeElement($result);
-            $result->removeUser($this);
-        }
-
-        return $this;
+        // If you store any temporary, sensitive data on the user, clear it here
+         $this->plainPassword = null;
     }
 }
