@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if app.user %}
+        <h3>Liste des Quiz</h3>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Mon score</th>
+                <th scope="col">Commencer</th>
+            </tr>
+            </thead>
+            <tbody>
+        {% for quiz in quiz %}
+            <tr>
+                <th scope="row">{{ quiz.title }}</th>
+                <td>Le score de l'utilisateur au Quiz</td>
+                <td><a href="" class="btn btn-primary">Débuter le Quiz</a></td>
+            </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+
+        <h4>Merci de vous connecter pour accéder à la liste des Quiz</h4>
+        <a href="{{ path('app_login') }}" class="btn btn-secondary" style="margin-right: 10px">Connexion</a>
+        <h4>Vous n'avez pas de compte ?</h4>
+        <a href="{{ path('app_register') }}" class="btn btn-secondary" style="margin-right: 10px">Inscrivez-vous</a>
+
+    {% endif %}
+
+{% endblock %}
