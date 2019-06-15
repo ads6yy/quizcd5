@@ -3,7 +3,7 @@
     border-color: #0D1544 !important;
 }
 
-.btn-primary:hover{
+.btn-primary:hover {
     background-color: #192a86 !important;
     border-color: #192a86 !important;
 }
@@ -11,9 +11,31 @@
 .btn-secondary {
     background-color: #2F9DFA !important;
     border-color: #2F9DFA !important;
+    margin: 5px;
 }
 
-.btn-secondary:hover{
+.btn-secondary:hover {
     background-color: #036dea !important;
     border-color: #036dea !important;
+}
+
+.nav-item {
+    display: flex;             /* establish flex container */
+    align-items: center;       /* center ul container vertically */
+    justify-content: center;   /* center ul container horizontally (optional) */
+}
+
+.questionTitle{
+    width: 50%;
+    text-align: center;
+    margin: 20px;
+}
+
+.question{
+    margin: 25px;
+    padding: 15px;
+}
+
+.row {
+    margin: 5px;
 }

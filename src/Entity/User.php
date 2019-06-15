@@ -65,6 +65,11 @@ class User implements UserInterface
      */
     private $adress;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Result", mappedBy="user")
+     */
+    private $results;
+
     public function getId(): ?int
     {
         return $this->id;

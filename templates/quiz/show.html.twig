@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ quiz.title }}{% endblock %}
+
+{% block body %}
+
+    {% if app.user %}
+        <h3 class="bg-primary text-white questionTitle rounded">Début du {{ quiz.title }}</h3>
+        {% if questions %}
+                    {% for question in questions %}
+                        <div class="question border border-primary rounded">
+                            <h5>Question {{ loop.index }}</h5>
+                            <p>{{ question.question }}</p>
+                            {% set form = formObject.createView %}
+                            {{ form_start(form) }}
+                            {{ form_row(form.answer, {'attr' : {'placeholder': 'Réponse ...'}}) }}
+                            {{ form_end(form) }}
+                        </div>
+                    {% endfor %}
+            <div class="row justify-content-center">
+                <button type="submit" class="btn btn-success">Valider mes réponses</button>
+            </div>
+            <div class="row justify-content-center" >
+                <h6>Merci d'avoir participer à ce Quizz !</h6>
+            </div>
+        {% else %}
+            <h6>Ce Quiz ne possède pas encore de question</h6>
+        {% endif %}
+    {% else %}
+        <h3>Page invalide !</h3>
+    {% endif %}
+
+{% endblock %}

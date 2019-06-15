@@ -17,7 +17,7 @@
             <tr>
                 <th scope="row">{{ quiz.title }}</th>
                 <td>Le score de l'utilisateur au Quiz</td>
-                <td><a href="" class="btn btn-primary">Débuter le Quiz</a></td>
+                <td><a href="{{ path('quiz_show', {'id': quiz.id}) }}" class="btn btn-primary">Débuter le Quiz</a></td>
             </tr>
         {% endfor %}
             </tbody>
