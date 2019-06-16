@@ -7,19 +7,23 @@
     {% if app.user %}
         <h3 class="bg-primary text-white questionTitle rounded">Début du {{ quiz.title }}</h3>
         {% if questions %}
+            {{ form_start(form) }}
                     {% for question in questions %}
                         <div class="question border border-primary rounded">
                             <h5>Question {{ loop.index }}</h5>
                             <p>{{ question.question }}</p>
-                            {% set form = formObject.createView %}
-                            {{ form_start(form) }}
-                            {{ form_row(form.answer, {'attr' : {'placeholder': 'Réponse ...'}}) }}
-                            {{ form_end(form) }}
+                                {{ form_row(form[loop.index],
+                                    {'attr' :
+                                        {'placeholder': 'Réponse ...'}
+                                    }
+                                ) }}
                         </div>
                     {% endfor %}
             <div class="row justify-content-center">
                 <button type="submit" class="btn btn-success">Valider mes réponses</button>
             </div>
+            {{ form_end(form) }}
+
             <div class="row justify-content-center" >
                 <h6>Merci d'avoir participer à ce Quizz !</h6>
             </div>

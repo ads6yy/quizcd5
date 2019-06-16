@@ -16,7 +16,11 @@
         {% for quiz in quiz %}
             <tr>
                 <th scope="row">{{ quiz.title }}</th>
-                <td>Le score de l'utilisateur au Quiz</td>
+                {% if results[quiz.id] is defined %}
+                    <td>{{ results[quiz.id] }}</td>
+                {% else %}
+                    <td>Pas de score enregistré</td>
+                {% endif %}
                 <td><a href="{{ path('quiz_show', {'id': quiz.id}) }}" class="btn btn-primary">Débuter le Quiz</a></td>
             </tr>
         {% endfor %}
