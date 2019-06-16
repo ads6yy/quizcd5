@@ -10,6 +10,7 @@
                 <th scope="col">Nom</th>
                 <th scope="col">Mon score</th>
                 <th scope="col">Commencer</th>
+                <th scope="col">Reset mon score</th>
             </tr>
             </thead>
             <tbody>
@@ -21,7 +22,8 @@
                 {% else %}
                     <td>Pas de score enregistré</td>
                 {% endif %}
-                <td><a href="{{ path('quiz_show', {'id': quiz.id}) }}" class="btn btn-primary">Débuter le Quiz</a></td>
+                <td><a href="{{ path('quiz_show', {'id': quiz.id}) }}" class="btn btn-primary">Allez au Quiz</a></td>
+                <td><a href="{{ path('quiz_reset', {'quizID': quiz.id}) }}" class="btn btn-danger">RESET</a></td>
             </tr>
         {% endfor %}
             </tbody>

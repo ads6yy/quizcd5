@@ -83,7 +83,6 @@ class User implements UserInterface
     {
         if (!$this->results->contains($result)) {
             $this->results[] = $result;
-            $result->addQuiz($this);
         }
 
         return $this;
@@ -93,7 +92,6 @@ class User implements UserInterface
     {
         if ($this->results->contains($result)) {
             $this->results->removeElement($result);
-            $result->removeQuiz($this);
         }
 
         return $this;

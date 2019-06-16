@@ -40,7 +40,7 @@ class QuizController extends AbstractController
             foreach ($userResult as $result){
                 if ($quizz == $result->getQuiz()){
                     $count = count($quizz->getQuestions());
-                    $results[$quizz->getId()] = $result->getResultat().'/'.$count;
+                    $results[$quizz->getId()] = $result->getResultat().' / '.$count;
                 }
             }
         }
@@ -62,7 +62,7 @@ class QuizController extends AbstractController
         $form = $this->createFormBuilder();
         $i=1;
         foreach ($questions as $question){
-            $form->add($i, TextType::class);
+            $form->add($i, TextType::class, ['label' => false]);
             $i++;
         }
         $form_questions = $form->getForm();
@@ -77,7 +77,7 @@ class QuizController extends AbstractController
                     $resultat++;
                 }
             }
-            $result = $resultRepository->findOneBy(['quiz' => $quiz->getId()]);
+            $result = $resultRepository->findOneBy(['user' => $user, 'quiz' => $quiz->getId()]);
             if ($result){
                 $result->setResultat($resultat);
             }
@@ -120,5 +120,20 @@ class QuizController extends AbstractController
         return $this->render('quiz/add.html.twig', [
             'formQuiz' => $formQuiz->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/quiz_reset/{quizID}", name="quiz_reset")
+     */
+    public function reset($quizID, QuizRepository $repository, ResultRepository $resultRepository, ObjectManager $manager){
+        $user = $this->getUser();
+        $quiz = $repository->find($quizID);
+        $result = $resultRepository->findOneBy(['user' => $user, 'quiz' => $quiz->getId()]);
+
+        if($result){
+            $manager->remove($result);
+            $manager->flush();
+        }
+        return $this->redirectToRoute('quiz_list');
     }
 }
