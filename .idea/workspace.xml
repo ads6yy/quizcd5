@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6e69ec68-d462-442f-a8b6-8e51372aff42" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/database.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/QuizController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/QuizController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/quiz/list.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/quiz/list.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/quiz/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/quiz/show.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,8 +31,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Entity/User.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="94" column="9" selection-start-line="94" selection-start-column="9" selection-end-line="94" selection-end-column="9" />
+            <state relative-caret-position="147">
+              <caret line="83" column="39" selection-start-line="83" selection-start-column="39" selection-end-line="83" selection-end-column="39" />
               <folding>
                 <element signature="e#30#73#0#PHP" expanded="true" />
               </folding>
@@ -73,11 +70,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/quiz/list.html.twig">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="238">
-              <caret line="17" column="16" lean-forward="true" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+              <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/database.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -138,9 +144,10 @@
         <option value="$PROJECT_DIR$/src/Form/QuizAnswerType.php" />
         <option value="$PROJECT_DIR$/src/Entity/Result.php" />
         <option value="$PROJECT_DIR$/templates/quiz/show.html.twig" />
-        <option value="$PROJECT_DIR$/src/Entity/User.php" />
         <option value="$PROJECT_DIR$/src/Controller/QuizController.php" />
         <option value="$PROJECT_DIR$/templates/quiz/list.html.twig" />
+        <option value="$PROJECT_DIR$/src/Entity/User.php" />
+        <option value="$PROJECT_DIR$/database.sql" />
       </list>
     </option>
   </component>
@@ -394,7 +401,7 @@
       <workItem from="1559986890034" duration="9695000" />
       <workItem from="1560116559402" duration="15596000" />
       <workItem from="1560169980179" duration="29658000" />
-      <workItem from="1560719722810" duration="1869000" />
+      <workItem from="1560719722810" duration="2518000" />
     </task>
     <task id="LOCAL-00001" summary="création entité / nav-bar / page d'accueil">
       <created>1559947530239</created>
@@ -445,17 +452,24 @@
       <option name="project" value="LOCAL" />
       <updated>1560699391051</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Bouton reset + correctif textuels">
+      <created>1560721650017</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1560721650017</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63290000" />
+    <option name="totallyTimeSpent" value="63939000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6911197" visible="true" weight="0.22550336" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6911197" visible="true" weight="0.22550336" />
       <window_info id="Structure" order="1" sideWeight="0.3088803" side_tool="true" weight="0.22550336" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -468,7 +482,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.26628897" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.26628897" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -490,7 +504,8 @@
     <MESSAGE value="liste quiz / ajout css" />
     <MESSAGE value="début création quiz / début style" />
     <MESSAGE value="Formulaire Quiz / Validation formulaire / Implémentation/Affichage résultat utilisateur" />
-    <option name="LAST_COMMIT_MESSAGE" value="Formulaire Quiz / Validation formulaire / Implémentation/Affichage résultat utilisateur" />
+    <MESSAGE value="Bouton reset + correctif textuels" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bouton reset + correctif textuels" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/.env">
@@ -728,16 +743,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="94" column="9" selection-start-line="94" selection-start-column="9" selection-end-line="94" selection-end-column="9" />
-          <folding>
-            <element signature="e#30#73#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/quiz/show.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -758,7 +763,24 @@
     <entry file="file://$PROJECT_DIR$/templates/quiz/list.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
-          <caret line="17" column="16" lean-forward="true" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+          <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="83" column="39" selection-start-line="83" selection-start-column="39" selection-end-line="83" selection-end-column="39" />
+          <folding>
+            <element signature="e#30#73#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
         </state>
       </provider>
     </entry>
