@@ -13,10 +13,14 @@ class QuestionController extends AbstractController
 {
     /**
      * @Route("/question_add", name="question_add")
+     * @Route("/question/{id}/edit", name="question_edit")
      */
-    public function add(Request $request, ObjectManager $manager)
+    public function question(Question $question = null, Request $request, ObjectManager $manager)
     {
-        $question = new Question();
+        if(!$question){
+            $question = new Question();
+        }
+
         $formQuestion = $this->createForm(QuestionType::class, $question);
         $formQuestion->handleRequest($request);
 
@@ -30,8 +34,10 @@ class QuestionController extends AbstractController
             return $this->redirectToRoute('quiz_list');
         }
 
-        return $this->render('question/add.html.twig', [
+        return $this->render('question/form.html.twig', [
+            'question' => $question,
             'formQuestion' => $formQuestion->createView(),
+            'editMode' => $question->getId() !== null
         ]);
     }
 }

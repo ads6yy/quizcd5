@@ -7,6 +7,7 @@ use App\Entity\Quiz;
 use App\Entity\Result;
 use App\Form\QuizAnswerType;
 use App\Form\QuizType;
+use App\Repository\QuestionRepository;
 use App\Repository\QuizRepository;
 use App\Repository\ResultRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -104,9 +105,13 @@ class QuizController extends AbstractController
 
     /**
      * @Route("/quiz_add", name="quiz_add")
+     * @Route("/quiz/{id}/edit", name="quiz_edit")
      */
-    public function add(Request $request, ObjectManager $manager){
-        $quiz = new Quiz();
+    public function form(Quiz $quiz = null, Request $request, ObjectManager $manager){
+        if(!$quiz){
+            $quiz = new Quiz();
+        }
+
         $formQuiz = $this->createForm(QuizType::class, $quiz);
         $formQuiz->handleRequest($request);
 
@@ -117,8 +122,9 @@ class QuizController extends AbstractController
             return $this->redirectToRoute('quiz_list');
         }
 
-        return $this->render('quiz/add.html.twig', [
+        return $this->render('quiz/form.html.twig', [
             'formQuiz' => $formQuiz->createView(),
+            'editMode' => $quiz->getId() !== null
         ]);
     }
 
@@ -135,5 +141,19 @@ class QuizController extends AbstractController
             $manager->flush();
         }
         return $this->redirectToRoute('quiz_list');
+    }
+
+    /**
+     * @Route("/quiz/{quizID}/questions", name="quiz_questions")
+     */
+    public function questions($quizID, QuestionRepository $questionRepository, QuizRepository $quizRepository){
+
+        $quiz = $quizRepository->find($quizID);
+        $questions = $quiz->getQuestions();
+
+        return $this->render('quiz/questions.html.twig', [
+            'quiz' => $quiz,
+            'questions' => $questions
+        ]);
     }
 }

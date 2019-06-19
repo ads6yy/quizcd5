@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% if app.user %}
+        {% if editMode %}
+            <h3>Modifier une question !</h3>
+        {% else %}
+            <h3>Création d'une question !</h3>
+        {% endif %}
+
+        {{ form_start(formQuestion) }}
+
+            {{ form_row(formQuestion.type, {'attr':
+                {'placeholder': 'Type'},
+                'value': 'simple'
+            }) }}
+            {{ form_row(formQuestion.question, {'attr': {'placeholder': 'Question'}}) }}
+            {{ form_row(formQuestion.answer, {
+                'attr': {'placeholder': 'Réponse'},
+                'value': question.answer[0]
+            }) }}
+            {{ form_row(formQuestion.quiz) }}
+
+            <button type="submit" class="btn btn-success">
+                {% if editMode %}
+                    Enregistrer les modifications
+                {% else %}
+                    Ajouter la question
+                {% endif %}
+            </button>
+
+        {{ form_end(formQuestion) }}
+
+    {% else %}
+        <h3>Page invalide !</h3>
+    {% endif %}
+
+{% endblock %}

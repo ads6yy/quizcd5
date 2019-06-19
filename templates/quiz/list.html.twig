@@ -6,12 +6,14 @@
 
         <table class="table table-hover">
             <thead>
-            <tr>
-                <th scope="col">Nom</th>
-                <th scope="col">Mon score</th>
-                <th scope="col">Commencer</th>
-                <th scope="col">Reset mon score</th>
-            </tr>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Mon score</th>
+                    <th scope="col">Commencer</th>
+                    <th scope="col">Reset mon score</th>
+                    <th scope="col">Modifier</th>
+                    <th scope="col">Questions</th>
+                </tr>
             </thead>
             <tbody>
         {% for quiz in quiz %}
@@ -23,7 +25,9 @@
                     <td>Pas de score enregistré</td>
                 {% endif %}
                 <td><a href="{{ path('quiz_show', {'id': quiz.id}) }}" class="btn btn-primary">Allez au Quiz</a></td>
-                <td><a href="{{ path('quiz_reset', {'quizID': quiz.id}) }}" class="btn btn-danger">RESET</a></td>
+                <td><a href="{{ path('quiz_reset', {'quizID': quiz.id}) }}" class="btn btn-danger">Reset</a></td>
+                <td><a href="{{ path('quiz_edit', {'id': quiz.id}) }}" class="btn btn-info">Modifier</a></td>
+                <td><a href="{{ path('quiz_questions', {'quizID': quiz.id}) }}" class="btn btn-warning">Questions</a></td>
             </tr>
         {% endfor %}
             </tbody>

@@ -23,7 +23,7 @@ class QuestionType extends AbstractType
             ])
             ->add('answer', TextType::class, [
                 'mapped' => false,
-                'label' => 'Réponse'
+                'label' => 'Réponse',
             ])
             ->add('quiz', EntityType::class, [
                 'mapped' => false,

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if app.user %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col"><h4>Questions du {{ quiz.title }}</h4></th>
+                    <th scope="col"><h5>Réponse</h5></th>
+                    <th scope="col"><h5>Modifier</h5></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                    <tr>
+                        <th scope="row">{{ question.question }}</th>
+                        <th scope="row">
+                            {% for answer in question.answer %}
+                                <p><small>{{ answer }}</small></p>
+                            {% endfor %}
+                        </th>
+                        <td><a href="{{ path('question_edit', {'id': question.id}) }}" class="btn btn-info">Modifier</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+
+        <h4>Merci de vous connecter pour accéder à la liste des Quiz</h4>
+        <a href="{{ path('app_login') }}" class="btn btn-secondary" style="margin-right: 10px">Connexion</a>
+        <h4>Vous n'avez pas de compte ?</h4>
+        <a href="{{ path('app_register') }}" class="btn btn-secondary" style="margin-right: 10px">Inscrivez-vous</a>
+
+    {% endif %}
+{% endblock %}

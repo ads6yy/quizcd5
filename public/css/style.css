@@ -25,17 +25,21 @@
     justify-content: center;   /* center ul container horizontally (optional) */
 }
 
-.questionTitle{
+.questionTitle {
     width: 50%;
     text-align: center;
     margin: 20px;
 }
 
-.question{
+.question {
     margin: 25px;
     padding: 15px;
 }
 
 .row {
     margin: 5px;
+}
+
+tbody td, thead th {
+    text-align: center;
 }
