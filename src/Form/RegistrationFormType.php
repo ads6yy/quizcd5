@@ -51,6 +51,10 @@ class RegistrationFormType extends AbstractType
                 ],
                 'label' => 'Mot de passe'
             ])
+            ->add('results', HiddenType::class, [
+                'disabled' => true,
+                'required' => false
+            ])
         ;
     }
 
