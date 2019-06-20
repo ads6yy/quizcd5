@@ -32,16 +32,16 @@ class QuizController extends AbstractController
      */
     public function list(QuizRepository $quizRepository){
 
-        $quiz = $quizRepository->findAll();
-        $userResult = $this->getUser()->getResults();
-
         $results = [];
-
-        foreach ($quiz as $quizz){
-            foreach ($userResult as $result){
-                if ($quizz == $result->getQuiz()){
-                    $count = count($quizz->getQuestions());
-                    $results[$quizz->getId()] = $result->getResultat().' / '.$count;
+        $quiz = $quizRepository->findAll();
+        if ($this->getUser()){
+            $userResult = $this->getUser()->getResults();
+            foreach ($quiz as $quizz){
+                foreach ($userResult as $result){
+                    if ($quizz == $result->getQuiz()){
+                        $count = count($quizz->getQuestions());
+                        $results[$quizz->getId()] = $result->getResultat().' / '.$count;
+                    }
                 }
             }
         }

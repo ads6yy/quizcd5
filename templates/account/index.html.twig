@@ -4,12 +4,14 @@
 
     {% if app.user %}
 
+        <h3>Mes informations</h3>
+
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-6">
                 <div class="well well-sm">
                     <div class="row">
                         <div class="col-sm-6 col-md">
-                            <h4>{{ app.user.firstName }} {{ app.user.lastName }}</h4>
+                            <h6>{{ app.user.firstName }} {{ app.user.lastName }}</h6>
                             <p><i class="glyphicon glyphicon-map-marker">{{ app.user.adress }}</i></p>
                             <p><i class="glyphicon glyphicon-envelope"></i>{{ app.user.email }}</p>
                             <p><i class="glyphicon glyphicon glyphicon-earphone"></i>0{{ app.user.phoneNumber }}</p>
@@ -22,6 +24,26 @@
         <div class="row">
             <a href="{{ path('account_edit', {'id': app.user.id}) }}" class="btn btn-info">Modifier mes informations</a>
         </div>
+
+        {% if results is not empty %}
+            <h3>Mes résultats</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Nom du Quiz</th>
+                        <th scope="col">Mon résultat</th>
+                    </tr>
+                </thead>
+            <tbody>
+                {% for result in results %}
+                            <tr>
+                                <td>{{ result.quiz.title }}</td>
+                                <td>{{ result.resultat }}</td>
+                            </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        {% endif %}
 
     {% else %}
 

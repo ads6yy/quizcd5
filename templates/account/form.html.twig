@@ -3,11 +3,16 @@
 {% block body %}
 
     {% if app.user %}
-        <h3>Modifier mon compte !</h3>
+        <h3>Modifier mes informations</h3>
 
-        <button type="submit" class="btn btn-success">
-                Enregistrer les modifications
-        </button>
+        {{ form_start(form) }}
+
+            {{ form_widget(form) }}
+            <div class="row justify-content-center">
+                <button type="submit" class="btn btn-success">Enregistrer les modifications</button>
+            </div>
+
+        {{ form_end(form) }}
 
     {% else %}
         <h3>Page invalide !</h3>
