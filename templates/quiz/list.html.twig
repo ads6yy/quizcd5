@@ -2,7 +2,14 @@
 
 {% block body %}
     {% if app.user %}
-        <h3>Liste des Quiz</h3>
+        <div class="row" style="margin-bottom: 50px">
+            <div class="col-10">
+                <h3>Liste des Quiz</h3>
+            </div>
+            <div class="col-2">
+                <a href="{{ path('quiz_add') }}" class="btn btn-primary">Ajouter un Quiz</a>
+            </div>
+        </div>
 
         <table class="table table-hover">
             <thead>
@@ -12,6 +19,7 @@
                     <th scope="col">Commencer</th>
                     <th scope="col">Reset mon score</th>
                     <th scope="col">Modifier</th>
+                    <th scope="col">Supprimer</th>
                     <th scope="col">Questions</th>
                 </tr>
             </thead>
@@ -25,8 +33,9 @@
                     <td>Pas de score enregistré</td>
                 {% endif %}
                 <td><a href="{{ path('quiz_show', {'id': quiz.id}) }}" class="btn btn-primary">Allez au Quiz</a></td>
-                <td><a href="{{ path('quiz_reset', {'quizID': quiz.id}) }}" class="btn btn-danger">Reset</a></td>
+                <td><a href="{{ path('quiz_reset', {'quizID': quiz.id}) }}" class="btn btn-primary">Reset</a></td>
                 <td><a href="{{ path('quiz_edit', {'id': quiz.id}) }}" class="btn btn-info">Modifier</a></td>
+                <td><a href="{{ path('quiz_delete', {'id': quiz.id}) }}" class="btn btn-danger">Supprimer</a></td>
                 <td><a href="{{ path('quiz_questions', {'quizID': quiz.id}) }}" class="btn btn-warning">Questions</a></td>
             </tr>
         {% endfor %}

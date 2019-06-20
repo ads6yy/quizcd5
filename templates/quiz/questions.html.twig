@@ -8,18 +8,21 @@
                     <th scope="col"><h4>Questions du {{ quiz.title }}</h4></th>
                     <th scope="col"><h5>Réponse</h5></th>
                     <th scope="col"><h5>Modifier</h5></th>
+                    <th scope="col"><h5>Supprimer</h5></th>
+                    <th scope="col"><a href="{{ path('question_add') }}" class="btn btn-primary">Ajouter une question</a></th>
                 </tr>
             </thead>
             <tbody>
                 {% for question in questions %}
                     <tr>
-                        <th scope="row">{{ question.question }}</th>
-                        <th scope="row">
+                        <td scope="row">{{ question.question }}</td>
+                        <td scope="row">
                             {% for answer in question.answer %}
                                 <p><small>{{ answer }}</small></p>
                             {% endfor %}
-                        </th>
+                        </td>
                         <td><a href="{{ path('question_edit', {'id': question.id}) }}" class="btn btn-info">Modifier</a></td>
+                        <td><a href="{{ path('question_delete', {'id': question.id}) }}" class="btn btn-danger">Supprimer</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

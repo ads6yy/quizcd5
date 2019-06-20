@@ -156,4 +156,14 @@ class QuizController extends AbstractController
             'questions' => $questions
         ]);
     }
+
+    /**
+     * @Route("/quiz/{id}/delete", name="quiz_delete")
+     */
+    public function delete(Quiz $quiz, ObjectManager $manager){
+        $manager->remove($quiz);
+        $manager->flush();
+
+        return $this->redirectToRoute('quiz_list');
+    }
 }

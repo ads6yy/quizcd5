@@ -40,4 +40,14 @@ class QuestionController extends AbstractController
             'editMode' => $question->getId() !== null
         ]);
     }
+
+    /**
+     * @Route("/question/{id}/delete", name="question_delete")
+     */
+    public function delete(Question $question, ObjectManager $manager){
+        $manager->remove($question);
+        $manager->flush();
+
+        return $this->redirectToRoute('quiz_list');
+    }
 }
