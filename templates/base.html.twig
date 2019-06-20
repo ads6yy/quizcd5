@@ -19,16 +19,15 @@
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('account') }}">Mon compte</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ path('quiz_list') }}">Mes Quiz</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     {%  if app.user %}
                         <li class="nav-item">
-                            <div class="navbar-text">{{ app.user.getFirstName() }} {{ app.user.getLastName() }}</div>
+                            <div class="navbar-text">
+                                <a href="{{ path('account') }}" style="margin-right: 10px">{{ app.user.getFirstName() }} {{ app.user.getLastName() }}</a>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a href="{{ path('app_logout') }}" class="btn btn-secondary" style="margin-right: 10px">Déconnexion</a>

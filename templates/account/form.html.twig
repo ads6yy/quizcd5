@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% if app.user %}
+        <h3>Modifier mon compte !</h3>
+
+        <button type="submit" class="btn btn-success">
+                Enregistrer les modifications
+        </button>
+
+    {% else %}
+        <h3>Page invalide !</h3>
+    {% endif %}
+
+{% endblock %}

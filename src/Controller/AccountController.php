@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AccountController extends AbstractController
@@ -13,7 +16,16 @@ class AccountController extends AbstractController
     public function index()
     {
         return $this->render('account/index.html.twig', [
-            'controller_name' => 'AccountController',
+        ]);
+    }
+
+    /**
+     * @Route("/account/{id}/edit", name="account_edit")
+     */
+    public function edit(User $user, Request $request, ObjectManager $manager){
+
+
+        return $this->render('account/form.html.twig', [
         ]);
     }
 }
