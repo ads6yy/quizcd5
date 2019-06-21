@@ -4,46 +4,54 @@
 
     {% if app.user %}
 
-        <h3>Mes informations</h3>
-
         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                <div class="well well-sm">
-                    <div class="row">
-                        <div class="col-sm-6 col-md">
-                            <h6>{{ app.user.firstName }} {{ app.user.lastName }}</h6>
-                            <p><i class="glyphicon glyphicon-map-marker">{{ app.user.adress }}</i></p>
-                            <p><i class="glyphicon glyphicon-envelope"></i>{{ app.user.email }}</p>
-                            <p><i class="glyphicon glyphicon glyphicon-earphone"></i>0{{ app.user.phoneNumber }}</p>
-                            <p><i class="glyphicon glyphicon-gift"></i>Compte crée le : {{ app.user.createdAt | date('d/m/Y à H:i')}}</p>
+            <div class="col-4">
+                <div class="card text-white bg-primary mb-3" style="max-width: 20rem; text-align: center;">
+                    <div class="card-header">
+                        <h3>Mes informations</h3>
+                    </div>
+                    <div class="card-body">
+                        <h5>{{ app.user.firstName }} {{ app.user.lastName }}</h5>
+                        <p><em>{{ app.user.adress }}</em></p>
+                        <p>{{ app.user.email }}</p>
+                        <p>0{{ app.user.phoneNumber }}</p>
+                        <p>Compte crée le : {{ app.user.createdAt | date('d/m/Y à H:i')}}</p>
+                        <div class="row justify-content-center">
+                            <a href="{{ path('account_edit', {'id': app.user.id}) }}" class="btn btn-secondary">Modifier mes informations</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <a href="{{ path('account_edit', {'id': app.user.id}) }}" class="btn btn-info">Modifier mes informations</a>
-        </div>
-
-        {% if results is not empty %}
-            <h3>Mes résultats</h3>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Nom du Quiz</th>
-                        <th scope="col">Mon résultat</th>
-                    </tr>
-                </thead>
-            <tbody>
-                {% for result in results %}
+            <div class="col-8">
+                {% if results is not empty %}
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">
+                        <h3>Mes résultats</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-primary">
+                            <thead>
                             <tr>
-                                <td>{{ result.quiz.title }}</td>
-                                <td>{{ result.resultat }}</td>
+                                <th scope="col">Nom du Quiz</th>
+                                <th scope="col">Mon résultat</th>
+                                <th scope="col">Améliorer mon résultats</th>
                             </tr>
-                {% endfor %}
-            </tbody>
-            </table>
-        {% endif %}
+                            </thead>
+                            <tbody>
+                            {% for result in results %}
+                                <tr>
+                                    <td>{{ result.quiz.title }}</td>
+                                    <td>{{ result.resultat }} / {{ result.quiz.getQuestions()|length }}</td>
+                                    <td><a href="{{ path('quiz_show', {'id': result.quiz.id}) }}" class="btn btn-secondary">Allez au Quiz</a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
 
     {% else %}
 
