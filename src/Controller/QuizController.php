@@ -30,8 +30,7 @@ class QuizController extends AbstractController
     /**
      * @Route("/quiz", name="quiz_list")
      */
-    public function list(QuizRepository $quizRepository){
-
+    public function list(QuizRepository $quizRepository, ObjectManager $manager){
         $results = [];
         $quiz = $quizRepository->findAll();
         if ($this->getUser()){

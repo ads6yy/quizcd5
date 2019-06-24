@@ -6,9 +6,11 @@
             <div class="col">
                 <h3>Liste des Quiz</h3>
             </div>
-            <div class="col-3">
-                <a href="{{ path('quiz_add') }}" class="btn btn-primary">Ajouter un Quiz</a>
-            </div>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="col-3">
+                    <a href="{{ path('quiz_add') }}" class="btn btn-primary">Ajouter un Quiz</a>
+                </div>
+            {% endif %}
         </div>
 
         <table class="table table-hover">
@@ -18,9 +20,11 @@
                     <th scope="col">Mon score</th>
                     <th scope="col">Commencer</th>
                     <th scope="col">Reset mon score</th>
-                    <th scope="col">Modifier</th>
-                    <th scope="col">Supprimer</th>
-                    <th scope="col">Questions</th>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <th scope="col">Modifier</th>
+                        <th scope="col">Supprimer</th>
+                        <th scope="col">Questions</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -34,9 +38,11 @@
                 {% endif %}
                 <td><a href="{{ path('quiz_show', {'id': quiz.id}) }}" class="btn btn-primary">Allez au Quiz</a></td>
                 <td><a href="{{ path('quiz_reset', {'quizID': quiz.id}) }}" class="btn btn-primary">Reset</a></td>
-                <td><a href="{{ path('quiz_edit', {'id': quiz.id}) }}" class="btn btn-info">Modifier</a></td>
-                <td><a href="{{ path('quiz_delete', {'id': quiz.id}) }}" class="btn btn-danger">Supprimer</a></td>
-                <td><a href="{{ path('quiz_questions', {'quizID': quiz.id}) }}" class="btn btn-warning">Questions</a></td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td><a href="{{ path('quiz_edit', {'id': quiz.id}) }}" class="btn btn-info">Modifier</a></td>
+                    <td><a href="{{ path('quiz_delete', {'id': quiz.id}) }}" class="btn btn-danger">Supprimer</a></td>
+                    <td><a href="{{ path('quiz_questions', {'quizID': quiz.id}) }}" class="btn btn-warning">{{ quiz.getQuestions()|length }} Questions</a></td>
+                {% endif %}
             </tr>
         {% endfor %}
             </tbody>
