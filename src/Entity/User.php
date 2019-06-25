@@ -19,6 +19,7 @@ class User implements UserInterface
     {
         $this->createdAt = new \DateTime();
         $this->results = new ArrayCollection();
+        $this->reponses = new ArrayCollection();
     }
     /**
      * @ORM\Id()
@@ -72,6 +73,11 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Result", mappedBy="user")
      */
     private $results;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Reponse", mappedBy="user")
+     */
+    private $reponses;
 
     /**
      * @return Collection|Result[]
@@ -233,6 +239,37 @@ class User implements UserInterface
     public function setAdress(string $adress): self
     {
         $this->adress = $adress;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reponse[]
+     */
+    public function getReponses(): Collection
+    {
+        return $this->reponses;
+    }
+
+    public function addReponse(Reponse $reponse): self
+    {
+        if (!$this->reponses->contains($reponse)) {
+            $this->reponses[] = $reponse;
+            $reponse->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReponse(Reponse $reponse): self
+    {
+        if ($this->reponses->contains($reponse)) {
+            $this->reponses->removeElement($reponse);
+            // set the owning side to null (unless already changed)
+            if ($reponse->getUser() === $this) {
+                $reponse->setUser(null);
+            }
+        }
 
         return $this;
     }

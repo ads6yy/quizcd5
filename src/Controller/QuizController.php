@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Question;
 use App\Entity\Quiz;
+use App\Entity\Reponse;
 use App\Entity\Result;
 use App\Form\QuizAnswerType;
 use App\Form\QuizType;
 use App\Repository\QuestionRepository;
 use App\Repository\QuizRepository;
+use App\Repository\ReponseRepository;
 use App\Repository\ResultRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,41 +56,75 @@ class QuizController extends AbstractController
     /**
      * @Route("/quiz/{id}", name="quiz_show")
      */
-    public function show($id, QuizRepository $repository, ResultRepository $resultRepository, Request $request, ObjectManager $manager){
+    public function show($id, QuizRepository $repository, ResultRepository $resultRepository, ReponseRepository $reponseRepository, Request $request, ObjectManager $manager){
         $quiz = $repository->find($id);
         $questions = $quiz->getQuestions();
         $user = $this->getUser();
+        $reponses = [];
 
         $form = $this->createFormBuilder();
         $i=1;
         foreach ($questions as $question){
             $form->add($i, TextType::class, ['label' => false]);
+            $existingReponse = $reponseRepository->findBy(['user' => $user->getId(), 'question' => $question->getId()]);
+            if ($existingReponse){
+                $goodAnswer = $question->getAnswer()[0];
+                if ($existingReponse[0]->getReponse() == $goodAnswer){
+                    $reponses[] = [$existingReponse[0]->getReponse(), 'vrai'];
+                }
+                else{
+                    $reponses[] = [$existingReponse[0]->getReponse(), 'faux'];
+                }
+            }
+            else{
+                $reponses[] = 'Vous n\'avez pas encore répondu à cette question';
+            }
             $i++;
         }
         $form_questions = $form->getForm();
 
         $form_questions->handleRequest($request);
         if ($form_questions->isSubmitted() && $form_questions->isValid()){
-            $resultat = 0;
             $answers = $form_questions->getData();
 
             for($k = 0; $k < count($answers); $k++){
-                if ($answers[$k+1] == $questions[$k]->getAnswer()[0]){
-                    $resultat++;
+                // checkez si une réponse existe déja
+                $existingReponse = $reponseRepository->findBy(['user' => $user->getId(), 'question' => $questions[$k]->getId()]);
+                if($existingReponse){
+                    //update le resultat de la réponse
+                    $existingReponse[0]->setReponse($answers[$k+1]);
+
+                    $manager->persist($existingReponse[0]);
                 }
-            }
-            $result = $resultRepository->findOneBy(['user' => $user, 'quiz' => $quiz->getId()]);
-            if ($result){
-                $result->setResultat($resultat);
-            }
-            else{
-                $result = new Result();
-                $result->setQuiz($quiz);
-                $result->setUser($user);
-                $result->setResultat($resultat);
+                //sinon créer la réponse
+                else{
+                    $reponse = new Reponse();
+                    $reponse->setQuestion($questions[$k]);
+                    $reponse->setUser($user);
+                    $reponse->setReponse($answers[$k+1]);
+
+                    $manager->persist($reponse);
+                }
+
+                //resultats
+                $resultat = 0;
+                if ($answers[$k+1] == $questions[$k]->getAnswer()[0]){
+                        $resultat++;
+                }
+                $result = $resultRepository->findOneBy(['user' => $user, 'quiz' => $quiz->getId()]);
+                if ($result){
+                    $result->setResultat($resultat);
+                }
+                else{
+                    $result = new Result();
+                    $result->setQuiz($quiz);
+                    $result->setUser($user);
+                    $result->setResultat($resultat);
+                }
+
+                $manager->persist($result);
             }
 
-            $manager->persist($result);
             $manager->flush();
 
             return $this->redirectToRoute('quiz_list');
@@ -98,7 +134,8 @@ class QuizController extends AbstractController
             'quiz' => $quiz,
             'questions' => $questions,
             'form' => $form_questions->createView(),
-            'answer' => 'answer'
+            'answer' => 'answer',
+            'reponses' => $reponses
         ]);
     }
 
