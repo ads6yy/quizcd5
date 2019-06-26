@@ -10,12 +10,28 @@
                         <div class="question border border-primary rounded">
                             <h5>Question {{ loop.index }}</h5>
                             <p>{{ question.question }}</p>
-                                {{ form_row(form[loop.index],
-                                    {'attr' :
-                                        {'placeholder': 'Réponse ...'}
-                                    }
-                                ) }}
-                            <p>Votre réponse : {{ reponses[loop.index-1][0] }}, correct : {{ reponses[loop.index-1][1] }}</p>
+                                {% if reponses[loop.index-1][1] == 'vrai' %}
+                                    {{ form_row(form[loop.index],
+                                        {'attr' :
+                                            {'placeholder': 'Réponse ...'},
+                                            'disabled': 'disabled',
+                                        }
+                                    ) }}
+                                    <p>
+                                        <img src="https://image.flaticon.com/icons/svg/391/391175.svg" style="height: 30px">
+                                        Votre réponse : {{ reponses[loop.index-1][0] }}
+                                    </p>
+                                {% else %}
+                                    {{ form_row(form[loop.index],
+                                        {'attr' :
+                                            {'placeholder': 'Réponse ...'},
+                                        }
+                                    ) }}
+                                    <p>
+                                        <img src="https://image.flaticon.com/icons/svg/391/391116.svg" style="height: 30px">
+                                        Votre réponse : {{ reponses[loop.index-1][0] }}
+                                    </p>
+                                {% endif %}
                         </div>
                     {% endfor %}
             <div class="row justify-content-center">

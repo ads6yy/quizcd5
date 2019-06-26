@@ -77,7 +77,7 @@ class QuizController extends AbstractController
                 }
             }
             else{
-                $reponses[] = 'Vous n\'avez pas encore répondu à cette question';
+                $reponses[] = ['Vous n\'avez pas encore répondu à cette question', ''];
             }
             $i++;
         }
@@ -87,43 +87,50 @@ class QuizController extends AbstractController
         if ($form_questions->isSubmitted() && $form_questions->isValid()){
             $answers = $form_questions->getData();
 
-            for($k = 0; $k < count($answers); $k++){
-                // checkez si une réponse existe déja
-                $existingReponse = $reponseRepository->findBy(['user' => $user->getId(), 'question' => $questions[$k]->getId()]);
-                if($existingReponse){
-                    //update le resultat de la réponse
-                    $existingReponse[0]->setReponse($answers[$k+1]);
+            for($k = 0; $k < count($answers); $k++) {
+                if ($answers[$k+1]){
+                    // checkez si une réponse existe déja
+                    $existingReponse = $reponseRepository->findBy(['user' => $user->getId(), 'question' => $questions[$k]->getId()]);
+                    if ($existingReponse) {
+                        //update le resultat de la réponse
+                        $existingReponse[0]->setReponse($answers[$k + 1]);
 
-                    $manager->persist($existingReponse[0]);
-                }
-                //sinon créer la réponse
-                else{
-                    $reponse = new Reponse();
-                    $reponse->setQuestion($questions[$k]);
-                    $reponse->setUser($user);
-                    $reponse->setReponse($answers[$k+1]);
+                        $manager->persist($existingReponse[0]);
+                    } //sinon créer la réponse
+                    else {
+                        $reponse = new Reponse();
+                        $reponse->setQuestion($questions[$k]);
+                        $reponse->setUser($user);
+                        $reponse->setReponse($answers[$k + 1]);
 
-                    $manager->persist($reponse);
-                }
+                        $manager->persist($reponse);
+                    }
 
-                //resultats
-                $resultat = 0;
-                if ($answers[$k+1] == $questions[$k]->getAnswer()[0]){
-                        $resultat++;
+                    //resultats
+                    if ($answers[$k + 1] == $questions[$k]->getAnswer()[0]) {
+                        $result = $resultRepository->findOneBy(['user' => $user, 'quiz' => $quiz->getId()]);
+                        if ($result) {
+                            $result->setResultat($result->getResultat()+1);
+                        } else {
+                            $result = new Result();
+                            $result->setQuiz($quiz);
+                            $result->setUser($user);
+                            $result->setResultat(1);
+                            $manager->persist($result);
+                            $manager->flush();
+                        }
+                    }
                 }
-                $result = $resultRepository->findOneBy(['user' => $user, 'quiz' => $quiz->getId()]);
-                if ($result){
-                    $result->setResultat($resultat);
-                }
-                else{
-                    $result = new Result();
-                    $result->setQuiz($quiz);
-                    $result->setUser($user);
-                    $result->setResultat($resultat);
-                }
-
-                $manager->persist($result);
             }
+
+            if (!isset($result)){
+                $result = new Result();
+                $result->setQuiz($quiz);
+                $result->setUser($user);
+                $result->setResultat(0);
+            }
+
+            $manager->persist($result);
 
             $manager->flush();
 
