@@ -33,6 +33,11 @@ class AccountController extends AbstractController
      */
     public function edit(User $user, Request $request, ObjectManager $manager){
 
+        $connectedUser = $this->getUser();
+        if ($connectedUser != $user && !$this->isGranted('ROLE_ADMIN')){
+            $this->denyAccessUnlessGranted(null);
+        }
+
         $form = $this->createForm(AccountType::class, $user);
         $form->handleRequest($request);
 
