@@ -107,8 +107,8 @@ class QuizController extends AbstractController
                     }
 
                     //resultats
+                    $result = $resultRepository->findOneBy(['user' => $user, 'quiz' => $quiz->getId()]);
                     if ($answers[$k + 1] == $questions[$k]->getAnswer()[0]) {
-                        $result = $resultRepository->findOneBy(['user' => $user, 'quiz' => $quiz->getId()]);
                         if ($result) {
                             $result->setResultat($result->getResultat()+1);
                         } else {
@@ -174,12 +174,18 @@ class QuizController extends AbstractController
     /**
      * @Route("/quiz_reset/{quizID}", name="quiz_reset")
      */
-    public function reset($quizID, QuizRepository $repository, ResultRepository $resultRepository, ObjectManager $manager){
+    public function reset($quizID, QuizRepository $repository, ReponseRepository $reponseRepository,
+                          ResultRepository $resultRepository, ObjectManager $manager){
         $user = $this->getUser();
         $quiz = $repository->find($quizID);
-        $result = $resultRepository->findOneBy(['user' => $user, 'quiz' => $quiz->getId()]);
+        $result = $resultRepository->findOneBy(['user' => $user, 'quiz' => $quiz]);
 
         if($result){
+            $questions = $quiz->getQuestions();
+            foreach ($questions as $question){
+                $reponse = $reponseRepository->findOneBy(['user' => $user, 'question' => $question]);
+                $manager->remove($reponse);
+            }
             $manager->remove($result);
             $manager->flush();
         }
@@ -189,7 +195,7 @@ class QuizController extends AbstractController
     /**
      * @Route("/quiz/{quizID}/questions", name="quiz_questions")
      */
-    public function questions($quizID, QuestionRepository $questionRepository, QuizRepository $quizRepository){
+    public function questions($quizID, QuizRepository $quizRepository){
 
         $quiz = $quizRepository->find($quizID);
         $questions = $quiz->getQuestions();
@@ -203,7 +209,22 @@ class QuizController extends AbstractController
     /**
      * @Route("/quiz/{id}/delete", name="quiz_delete")
      */
-    public function delete(Quiz $quiz, ObjectManager $manager){
+    public function delete(Quiz $quiz, ReponseRepository $reponseRepository,
+                           ResultRepository $resultRepository, ObjectManager $manager){
+
+        $questions = $quiz->getQuestions();
+        foreach ($questions as $question){
+            $reponses = $reponseRepository->findBy(['question' => $question]);
+            foreach ($reponses as $reponse){
+                $manager->remove($reponse);
+            }
+            $manager->remove($question);
+        }
+
+        $results = $resultRepository->findBy(['quiz' => $quiz]);
+        foreach ($results as $result){
+            $manager->remove($result);
+        }
         $manager->remove($quiz);
         $manager->flush();
 
