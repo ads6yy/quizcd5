@@ -30,7 +30,7 @@
                             {% endfor %}
                         </td>
                         <td><a href="{{ path('question_edit', {'id': question.id}) }}" class="btn btn-info">Modifier</a></td>
-                        <td><a href="{{ path('question_delete', {'id': question.id}) }}" class="btn btn-danger">Supprimer</a></td>
+                        <td><a href="{{ path('question_delete', {'id': question.id, 'id_quiz': quiz.id}) }}" class="btn btn-danger">Supprimer</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

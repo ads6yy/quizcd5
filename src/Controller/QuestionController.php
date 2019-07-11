@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Question;
+use App\Entity\Quiz;
 use App\Form\QuestionType;
+use App\Repository\QuizRepository;
+use App\Repository\ReponseRepository;
+use App\Repository\ResultRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,12 +46,25 @@ class QuestionController extends AbstractController
     }
 
     /**
-     * @Route("/question/{id}/delete", name="question_delete")
+     * @Route("/quiz/{id_quiz}/question/{id}/delete", name="question_delete")
      */
-    public function delete(Question $question, ObjectManager $manager){
-        $manager->remove($question);
-        $manager->flush();
+    public function delete($id_quiz, Question $question, ObjectManager $manager, QuizRepository $quizRepository,
+    ReponseRepository $reponseRepository, ResultRepository $resultRepository){
+        $quiz = $quizRepository->find($id_quiz);
 
-        return $this->redirectToRoute('quiz_list');
+        $reponses = $reponseRepository->findBy(['question' => $question]);
+        foreach ($reponses as $reponse){
+            $result = $resultRepository->findOneBy(['user' => $reponse->getUser(), 'quiz' => $quiz]);
+            if ($reponse->getReponse() == $question->getAnswer()[0]){
+                $result->setResultat($result->getResultat()-1);
+                $manager->persist($result);
+            }
+            $manager->remove($reponse);
+        }
+        $quiz->removeQuestion($question);
+        $manager->persist($quiz);
+
+        $manager->flush();
+        return $this->redirectToRoute('quiz_questions', ['quizID' => $id_quiz]);
     }
 }
