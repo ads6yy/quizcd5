@@ -147,8 +147,8 @@ class QuizController extends AbstractController
     }
 
     /**
-     * @Route("/quiz_add", name="quiz_add")
-     * @Route("/quiz/{id}/edit", name="quiz_edit")
+     * @Route("/admin/quiz_add", name="quiz_add")
+     * @Route("/admin/quiz/{id}/edit", name="quiz_edit")
      */
     public function form(Quiz $quiz = null, Request $request, ObjectManager $manager){
         if(!$quiz){
@@ -193,7 +193,7 @@ class QuizController extends AbstractController
     }
 
     /**
-     * @Route("/quiz/{quizID}/questions", name="quiz_questions")
+     * @Route("/admin/quiz/{quizID}/questions", name="quiz_questions")
      */
     public function questions($quizID, QuizRepository $quizRepository){
 
@@ -207,7 +207,7 @@ class QuizController extends AbstractController
     }
 
     /**
-     * @Route("/quiz/{id}/delete", name="quiz_delete")
+     * @Route("/admin/quiz/{id}/delete", name="quiz_delete")
      */
     public function delete(Quiz $quiz, ReponseRepository $reponseRepository,
                            ResultRepository $resultRepository, ObjectManager $manager){

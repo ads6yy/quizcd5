@@ -16,8 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class QuestionController extends AbstractController
 {
     /**
-     * @Route("/quiz/{id_quiz}/question_add", name="question_add")
-     * @Route("/quiz/{id_quiz}/question/{id}/edit", name="question_edit")
+     * @Route("/admin/quiz/{id_quiz}/question_add", name="question_add")
+     * @Route("/admin/quiz/{id_quiz}/question/{id}/edit", name="question_edit")
      */
     public function question($id_quiz, Question $question = null, Request $request, ObjectManager $manager)
     {
@@ -46,7 +46,7 @@ class QuestionController extends AbstractController
     }
 
     /**
-     * @Route("/quiz/{id_quiz}/question/{id}/delete", name="question_delete")
+     * @Route("/admin/quiz/{id_quiz}/question/{id}/delete", name="question_delete")
      */
     public function delete($id_quiz, Question $question, ObjectManager $manager, QuizRepository $quizRepository,
     ReponseRepository $reponseRepository, ResultRepository $resultRepository){
