@@ -42,3 +42,7 @@
 tbody td, thead th {
     text-align: center;
 }
+
+.card {
+    margin: 10px;
+}
