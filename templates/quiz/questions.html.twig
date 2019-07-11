@@ -7,7 +7,7 @@
                 <h3>Questions du {{ quiz.title }}</h3>
             </div>
             <div class="col-3">
-                <a href="{{ path('question_add') }}" class="btn btn-primary">Ajouter une question</a>
+                <a href="{{ path('question_add', {'id_quiz': quiz.id}) }}" class="btn btn-primary">Ajouter une question</a>
             </div>
         </div>
 
@@ -29,7 +29,7 @@
                                 <p><small>{{ answer }}</small></p>
                             {% endfor %}
                         </td>
-                        <td><a href="{{ path('question_edit', {'id': question.id}) }}" class="btn btn-info">Modifier</a></td>
+                        <td><a href="{{ path('question_edit', {'id': question.id, 'id_quiz': quiz.id}) }}" class="btn btn-info">Modifier</a></td>
                         <td><a href="{{ path('question_delete', {'id': question.id, 'id_quiz': quiz.id}) }}" class="btn btn-danger">Supprimer</a></td>
                     </tr>
                 {% endfor %}

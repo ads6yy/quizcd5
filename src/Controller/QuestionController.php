@@ -16,10 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class QuestionController extends AbstractController
 {
     /**
-     * @Route("/question_add", name="question_add")
-     * @Route("/question/{id}/edit", name="question_edit")
+     * @Route("/quiz/{id_quiz}/question_add", name="question_add")
+     * @Route("/quiz/{id_quiz}/question/{id}/edit", name="question_edit")
      */
-    public function question(Question $question = null, Request $request, ObjectManager $manager)
+    public function question($id_quiz, Question $question = null, Request $request, ObjectManager $manager)
     {
         if(!$question){
             $question = new Question();
@@ -35,7 +35,7 @@ class QuestionController extends AbstractController
             $manager->persist($question);
             $manager->flush();
 
-            return $this->redirectToRoute('quiz_list');
+            return $this->redirectToRoute('quiz_questions', ['quizID' => $formQuestion->get("quiz")->getData()->getId()]);
         }
 
         return $this->render('question/form.html.twig', [
