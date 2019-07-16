@@ -12,6 +12,7 @@ use App\Repository\QuestionRepository;
 use App\Repository\QuizRepository;
 use App\Repository\ReponseRepository;
 use App\Repository\ResultRepository;
+use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -23,9 +24,14 @@ class QuizController extends AbstractController
     /**
      * @Route("/", name="quiz_home")
      */
-    public function index()
+    public function index(UserRepository $userRepository, QuizRepository $quizRepository)
     {
+        $quiz = $quizRepository->findAll();
+        $lastUsers = $userRepository->findBy(array(), array('createdAt' => 'desc'));
+
         return $this->render('quiz/index.html.twig', [
+            'lastUsers' => $lastUsers,
+            'quiz' => $quiz
         ]);
     }
 

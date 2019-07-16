@@ -4,52 +4,43 @@
 
 {% block body %}
 
-    <h2 class="align-middle">Bienvenue sur le site des Quiz du CD5</h2>
-    <p>Sur ce site, vous pouvez tester vos connaissances footballistiques</p>
-
-    <div class="row">
-        <div class="card border-primary mb-3" style="max-width: 20rem;">
-            <div class="card-header">Header</div>
-            <div class="card-body">
-                <h4 class="card-title">Primary card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
-        <div class="card border-primary mb-3" style="max-width: 20rem;">
-            <div class="card-header">Header</div>
-            <div class="card-body">
-                <h4 class="card-title">Primary card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
-        <div class="card border-secondary mb-3" style="max-width: 20rem;">
-            <div class="card-header">Header</div>
-            <div class="card-body">
-                <h4 class="card-title">Secondary card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
+    <div class="text-center" style="margin: 20px">
+        <h2>Bienvenue sur le site des Quiz du CD5</h2>
+        <p>Sur ce site, vous pouvez tester vos connaissances footballistiques</p>
+        {% if not app.user %}
+            <p>Pour continuer ou commencer les quiz, <a href="{{ path('app_login') }}">connectez-vous</a> !</p>
+        {% endif %}
     </div>
 
     <div class="row">
-        <div class="card border-primary mb-3" style="max-width: 20rem;">
-            <div class="card-header">Header</div>
-            <div class="card-body">
-                <h4 class="card-title">Primary card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        {% if not app.user %}
+            <div class="card border-primary mb-3 col-md-5 md-auto text-center">
+                <div class="card-header">Vous n'avez pas de compte ? Inscrivez-vous !</div>
+                <div class="card-body">
+                    <a href="{{ path('app_register') }}" class="btn btn-secondary" style="margin-right: 10px; width: 300px">Inscrivez-vous</a>
+                </div>
             </div>
-        </div>
-        <div class="card border-success mb-3" style="max-width: 20rem;">
-            <div class="card-header">Header</div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="card border-primary mb-3 col-md-5 md-auto text-center">
+                <div class="card-header">Continuez vos Quiz !</div>
+                <div class="card-body">
+                    {% for quizz in quiz %}
+                        <p class="card-text"><a href="{{ path('quiz_show', {'id': quizz.id}) }}" class="btn btn-primary" style="width: 300px">{{ quizz.title }}</a></p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="card border-secondary mb-3 col-md-4 ml-auto">
+            <div class="card-header">Derniers utilisateurs inscrits</div>
             <div class="card-body">
-                <h4 class="card-title">Success card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                {% for user in lastUsers %}
+                    <p class="card-text small"><a href="">{{ user.firstName }}</a>, inscrit le {{ user.createdAt | date('d/m/Y à H:i')}}</p>
+                {% endfor %}
             </div>
         </div>
     </div>
-
-    {% if not app.user %}
-        <p>Pour commencer les quiz, connectez-vous !</p>
-    {% endif %}
 
 {% endblock %}
