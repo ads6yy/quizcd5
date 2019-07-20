@@ -3,10 +3,8 @@
 {% block body %}
 
     {% if app.user %}
-
-        <div class="row">
-            <div class="col-4">
-                <div class="card text-white bg-primary mb-3" style="max-width: 20rem; text-align: center;">
+        <div class="row justify-content-center">
+                <div class="card border-primary bg-white mb-3 text-center" style="width: 800px">
                     <div class="card-header">
                         <h3>Mes informations</h3>
                     </div>
@@ -21,37 +19,37 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-8">
-                {% if results is not empty %}
-                <div class="card text-white bg-primary mb-3">
-                    <div class="card-header">
-                        <h3>Mes résultats</h3>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-primary">
-                            <thead>
-                            <tr>
-                                <th scope="col">Nom du Quiz</th>
-                                <th scope="col">Mon résultat</th>
-                                <th scope="col">Améliorer mon résultats</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for result in results %}
-                                <tr>
-                                    <td>{{ result.quiz.title }}</td>
-                                    <td>{{ result.resultat }} / {{ result.quiz.getQuestions()|length }}</td>
-                                    <td><a href="{{ path('quiz_show', {'id': result.quiz.id}) }}" class="btn btn-secondary">Allez au Quiz</a></td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                {% endif %}
-            </div>
         </div>
+
+        {% if results is not empty %}
+        <div class="row justify-content-center">
+                        <div class="card border-primary bg-white mb-3" style="width: 800px">
+                            <div class="card-header">
+                                <h3>Mes résultats</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Nom du Quiz</th>
+                                        <th scope="col">Mon résultat</th>
+                                        <th scope="col">Améliorer mon résultats</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for result in results %}
+                                        <tr>
+                                            <td>{{ result.quiz.title }}</td>
+                                            <td>{{ result.resultat }} / {{ result.quiz.getQuestions()|length }}</td>
+                                            <td><a href="{{ path('quiz_show', {'id': result.quiz.id}) }}" class="btn btn-secondary">Allez au Quiz</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+        </div>
+        {% endif %}
 
     {% else %}
 
