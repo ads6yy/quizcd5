@@ -9,6 +9,7 @@ use App\Repository\QuizRepository;
 use App\Repository\ReponseRepository;
 use App\Repository\ResultRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +20,7 @@ class QuestionController extends AbstractController
      * @Route("/admin/quiz/{id_quiz}/question_add", name="question_add")
      * @Route("/admin/quiz/{id_quiz}/question/{id}/edit", name="question_edit")
      */
-    public function question($id_quiz, Question $question = null, Request $request, ObjectManager $manager)
+    public function question($id_quiz, Question $question = null, Request $request, EntityManagerInterface $manager)
     {
         if(!$question){
             $question = new Question();
@@ -48,7 +49,7 @@ class QuestionController extends AbstractController
     /**
      * @Route("/admin/quiz/{id_quiz}/question/{id}/delete", name="question_delete")
      */
-    public function delete($id_quiz, Question $question, ObjectManager $manager, QuizRepository $quizRepository,
+    public function delete($id_quiz, Question $question, EntityManagerInterface $manager, QuizRepository $quizRepository,
     ReponseRepository $reponseRepository, ResultRepository $resultRepository){
         $quiz = $quizRepository->find($id_quiz);
 

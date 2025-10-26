@@ -14,6 +14,8 @@ use App\Repository\ReponseRepository;
 use App\Repository\ResultRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +40,7 @@ class QuizController extends AbstractController
     /**
      * @Route("/quiz", name="quiz_list")
      */
-    public function list(QuizRepository $quizRepository, ObjectManager $manager){
+    public function list(QuizRepository $quizRepository){
         $results = [];
         $quiz = $quizRepository->findAll();
         if ($this->getUser()){
@@ -62,7 +64,7 @@ class QuizController extends AbstractController
     /**
      * @Route("/quiz/{id}", name="quiz_show")
      */
-    public function show($id, QuizRepository $repository, ResultRepository $resultRepository, ReponseRepository $reponseRepository, Request $request, ObjectManager $manager){
+    public function show($id, QuizRepository $repository, ResultRepository $resultRepository, ReponseRepository $reponseRepository, Request $request, EntityManagerInterface $manager){
         $quiz = $repository->find($id);
         $questions = $quiz->getQuestions();
         $user = $this->getUser();
@@ -156,7 +158,7 @@ class QuizController extends AbstractController
      * @Route("/admin/quiz_add", name="quiz_add")
      * @Route("/admin/quiz/{id}/edit", name="quiz_edit")
      */
-    public function form(Quiz $quiz = null, Request $request, ObjectManager $manager){
+    public function form(Quiz $quiz = null, Request $request, EntityManagerInterface $manager){
         if(!$quiz){
             $quiz = new Quiz();
         }
@@ -181,7 +183,7 @@ class QuizController extends AbstractController
      * @Route("/quiz_reset/{quizID}", name="quiz_reset")
      */
     public function reset($quizID, QuizRepository $repository, ReponseRepository $reponseRepository,
-                          ResultRepository $resultRepository, ObjectManager $manager){
+                          ResultRepository $resultRepository, EntityManagerInterface $manager){
         $user = $this->getUser();
         $quiz = $repository->find($quizID);
         $result = $resultRepository->findOneBy(['user' => $user, 'quiz' => $quiz]);
@@ -216,7 +218,7 @@ class QuizController extends AbstractController
      * @Route("/admin/quiz/{id}/delete", name="quiz_delete")
      */
     public function delete(Quiz $quiz, ReponseRepository $reponseRepository,
-                           ResultRepository $resultRepository, ObjectManager $manager){
+                           ResultRepository $resultRepository, EntityManagerInterface $manager){
 
         $questions = $quiz->getQuestions();
         foreach ($questions as $question){
