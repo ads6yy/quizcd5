@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.43, for Linux (x86_64)
 --
 -- Host: localhost    Database: quizcd5
 -- ------------------------------------------------------
--- Server version	5.7.24
+-- Server version	8.0.43-0ubuntu0.22.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
- SET NAMES utf8mb4 ;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,9 +21,9 @@
 
 DROP TABLE IF EXISTS `migration_versions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `migration_versions` (
-  `version` varchar(14) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `version` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `executed_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -45,12 +45,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `question`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `question` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `question` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `answer` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:array)',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `question` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `answer` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:array)',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -71,10 +71,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `question_quiz`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `question_quiz` (
-  `question_id` int(11) NOT NULL,
-  `quiz_id` int(11) NOT NULL,
+  `question_id` int NOT NULL,
+  `quiz_id` int NOT NULL,
   PRIMARY KEY (`question_id`,`quiz_id`),
   KEY `IDX_FAFC177D1E27F6BF` (`question_id`),
   KEY `IDX_FAFC177D853CD175` (`quiz_id`),
@@ -99,10 +99,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `quiz`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `quiz` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -118,23 +118,53 @@ INSERT INTO `quiz` VALUES (7,'Quiz Liga'),(8,'Quiz PL'),(9,'Quiz Ligue 1'),(10,'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `reponse`
+--
+
+DROP TABLE IF EXISTS `reponse`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `reponse` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `question_id` int NOT NULL,
+  `reponse` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_5FB6DEC7A76ED395` (`user_id`),
+  KEY `IDX_5FB6DEC71E27F6BF` (`question_id`),
+  CONSTRAINT `FK_5FB6DEC71E27F6BF` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`),
+  CONSTRAINT `FK_5FB6DEC7A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reponse`
+--
+
+LOCK TABLES `reponse` WRITE;
+/*!40000 ALTER TABLE `reponse` DISABLE KEYS */;
+INSERT INTO `reponse` VALUES (1,8,1,'Pelligrini'),(2,8,3,'OL'),(3,8,5,'5'),(4,8,10,'Umtiti'),(5,8,25,'France');
+/*!40000 ALTER TABLE `reponse` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `result`
 --
 
 DROP TABLE IF EXISTS `result`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `result` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `resultat` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `quiz_id` int(11) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `resultat` int NOT NULL,
+  `user_id` int DEFAULT NULL,
+  `quiz_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_136AC113A76ED395` (`user_id`),
   KEY `IDX_136AC113853CD175` (`quiz_id`),
   CONSTRAINT `FK_136AC113853CD175` FOREIGN KEY (`quiz_id`) REFERENCES `quiz` (`id`),
   CONSTRAINT `FK_136AC113A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,7 +173,7 @@ CREATE TABLE `result` (
 
 LOCK TABLES `result` WRITE;
 /*!40000 ALTER TABLE `result` DISABLE KEYS */;
-INSERT INTO `result` VALUES (10,0,2,11),(11,3,3,8),(13,3,3,9);
+INSERT INTO `result` VALUES (10,0,2,11),(11,3,3,8),(13,3,3,9),(14,2,8,7);
 /*!40000 ALTER TABLE `result` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,20 +183,20 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `roles` json NOT NULL,
-  `first_name` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone_number` int(11) NOT NULL,
+  `first_name` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone_number` int NOT NULL,
   `created_at` datetime NOT NULL,
-  `adress` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `adress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -175,7 +205,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (2,'test@test.com','$argon2i$v=19$m=65536,t=6,p=1$OTVDbFdGeEVWUkM0ejg0Mg$AVtT7fV+5alESdxiM3J0eiufrCGE/Ac/COReABJUaJQ','[]','TestPrénom','TESTNOM',762887107,'2019-06-10 10:23:49','adresse test'),(3,'adsy@adsy.com','$argon2i$v=19$m=65536,t=6,p=1$TkM1czBUU0sxQmV4VTVBag$tNURGLUdy3AruNXnDoiJqsd0fAAWLMDXjIcQDQg3UM0','[]','Adrien','SIMON',762887107,'2019-06-10 10:23:49','34 rue Lucien Voilin, 92800 Puteaux'),(6,'wu@wu.com','$argon2i$v=19$m=65536,t=6,p=1$WS5RUWxXc3dpN1AuMHB4Rg$NG6q/e71dXxJ948fhCoYKEk5N/qaA9PxTPD8NHH7Zvw','[]','Céline','WU',123456789,'2019-06-10 10:23:49','1 rue des wu');
+INSERT INTO `user` VALUES (2,'test@test.com','$argon2i$v=19$m=65536,t=6,p=1$OTVDbFdGeEVWUkM0ejg0Mg$AVtT7fV+5alESdxiM3J0eiufrCGE/Ac/COReABJUaJQ','[]','TestPrénom','TESTNOM',762887107,'2019-06-10 10:23:49','adresse test'),(3,'adsy@adsy.com','$argon2i$v=19$m=65536,t=6,p=1$TkM1czBUU0sxQmV4VTVBag$tNURGLUdy3AruNXnDoiJqsd0fAAWLMDXjIcQDQg3UM0','[]','Adrien','SIMON',762887107,'2019-06-10 10:23:49','34 rue Lucien Voilin, 92800 Puteaux'),(6,'wu@wu.com','$argon2i$v=19$m=65536,t=6,p=1$WS5RUWxXc3dpN1AuMHB4Rg$NG6q/e71dXxJ948fhCoYKEk5N/qaA9PxTPD8NHH7Zvw','[]','Céline','WU',123456789,'2019-06-10 10:23:49','1 rue des wu'),(8,'test@ipsosenso.com','$argon2id$v=19$m=65536,t=4,p=1$usMvcv6dMDr7sO6g+jEMPg$wB4qnjswXkc0QNuj4OvPm37/9niatgqGRJxetZr+MWM','[\"ROLE_ADMIN\"]','Adrien','SIMON',123456789,'2025-10-26 21:51:10','qsldjqskldj');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -188,4 +218,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-06-20 22:07:57
+-- Dump completed on 2025-11-01 13:36:58
