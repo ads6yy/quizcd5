@@ -2,7 +2,7 @@
 
 A football quiz platform inspired by the popular formats from the "Club des 5" YouTube channel. This project was developed as a learning exercise to master the Symfony framework.
 
-**Detailed Article:** [adsy.dev/node/26](https://adsy.dev/node/26)
+**Blog Post:** [adsy.dev/node/26](https://adsy.dev/node/26)
 
 ![Symfony](https://img.shields.io/badge/symfony-%23000000.svg?style=for-the-badge&logo=symfony&logoColor=white)
 ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white)
